@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.conf import settings
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -30,6 +30,6 @@ class Laptop(models.Model):
     )
     category = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
 
-    # seller = models.ForeignKey(UserProfile, on_delete=models.PROTECT)
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
 
     # def __str__(self):    #    s = self.name + ", " + str(self.display_inches) + "'' , " + self.processor_brand + ", " + self.processor_model + ", " + str(self.ram) + ", " + str(self.storage) + ", " + str(self.price) + ", " + str(self.image)
