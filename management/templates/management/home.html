@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Home - E-Laptop{% endblock %}
+
+{% block content %}
+    <div class="container-fluid bg-primary text-white text-center py-5">
+        <h1>Benvenuti su E-Laptop</h1>
+        <p>Trova i migliori laptop, computer e accessori per tutte le tue esigenze</p>
+        <a href="#" class="btn btn-light mt-3">Scopri di più</a>
+    </div>
+
+    <h2 class="text-center my-5">Prodotti in Evidenza</h2>
+    <div class="row">
+        <!-- Product 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Laptop 1">
+                <div class="card-body">
+                    <h5 class="card-title">Laptop XYZ</h5>
+                    <p class="card-text">Un laptop potente e versatile per tutte le tue esigenze lavorative.</p>
+                    <a href="#" class="btn btn-primary">Acquista ora</a>
+                </div>
+            </div>
+        </div>
+        <!-- Product 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Desktop 2">
+                <div class="card-body">
+                    <h5 class="card-title">Desktop ABC</h5>
+                    <p class="card-text">Un desktop affidabile e performante per casa o ufficio.</p>
+                    <a href="#" class="btn btn-primary">Acquista ora</a>
+                </div>
+            </div>
+        </div>
+        <!-- Product 3 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Monitor 3">
+                <div class="card-body">
+                    <h5 class="card-title">Monitor Full HD</h5>
+                    <p class="card-text">Schermo ad alta definizione per la massima qualità visiva.</p>
+                    <a href="#" class="btn btn-primary">Acquista ora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 # Custom User
 AUTH_USER_MODEL = 'management.CustomUser'
+LOGIN_REDIRECT_URL = 'Home'
+#LOGOUT_REDIRECT_URL = 'Logout'
+#LOGIN_URL = 'Login'
 
 
 # Application definition

@@ -20,10 +20,18 @@ from django.urls import path
 from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-#from management import views
+from management import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='Admin'),
+
+    path('', views.home, name='Home'),
+
+    path('register/', views.register, name='Register'),
+    path('login/', views.CustomLoginView.as_view(), name='Login'),
+    path('logout/', views.CustomLogoutView.as_view(next_page='Home'), name='Logout'),
+
+    path('products/', views.LaptopsListView.as_view(), name='Products'),
 
 
 ]
