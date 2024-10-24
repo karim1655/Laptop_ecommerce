@@ -61,3 +61,12 @@ class LaptopDeleteView(DeleteView):
     model = Laptop
     template_name = 'management/laptop_delete.html'
     success_url = reverse_lazy('LaptopsList')
+
+class LaptopUpdateView(UpdateView):
+    model = Laptop
+    template_name = 'management/laptop_update.html'
+    form_class = LaptopForm
+
+    def get_success_url(self):
+        pk = self.get_context_data()["object"].pk
+        return reverse("LaptopDetail", kwargs={'pk': pk})

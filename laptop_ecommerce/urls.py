@@ -35,6 +35,7 @@ urlpatterns = [
     path('laptopslist/', views.LaptopsListView.as_view(), name='LaptopsList'),
     path('laptopdetail/<pk>/', views.LaptopDetailView.as_view(), name='LaptopDetail'),
     path('laptopdelete/<pk>/', views.LaptopDeleteView.as_view(), name='LaptopDelete'),
+    path('laptopupdate/<pk>/', views.LaptopUpdateView.as_view(), name='LaptopUpdate'),
 
 
 ]
