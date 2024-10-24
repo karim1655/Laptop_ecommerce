@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
@@ -30,7 +32,32 @@ class CustomLogoutView(LogoutView):
 def home(request):
     return render(request, 'management/home.html')
 
+
 class LaptopsListView(ListView):
     model = Laptop
     template_name = 'management/laptops_list.html'
     title = 'Laptops list'
+
+def add_laptop(request):
+    if request.method == 'POST':
+        form = LaptopForm(request.POST, request.FILES)
+        if form.is_valid():
+            laptop = form.save(commit=False)
+            laptop.seller = request.user
+            laptop.save()
+            messages.success(request, 'Laptop created successfully')
+            return redirect('LaptopsList')
+        else:
+            messages.error(request, 'Laptop not created')
+    else:
+        form = LaptopForm()
+    return render(request, 'management/add_laptop.html', {'form': form})
+
+class LaptopDetailView(DetailView):
+    model = Laptop
+    template_name = 'management/laptop_detail.html'
+
+class LaptopDeleteView(DeleteView):
+    model = Laptop
+    template_name = 'management/laptop_delete.html'
+    success_url = reverse_lazy('LaptopsList')

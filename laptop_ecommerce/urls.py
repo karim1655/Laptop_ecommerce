@@ -31,7 +31,10 @@ urlpatterns = [
     path('login/', views.CustomLoginView.as_view(), name='Login'),
     path('logout/', views.CustomLogoutView.as_view(next_page='Home'), name='Logout'),
 
-    path('products/', views.LaptopsListView.as_view(), name='Products'),
+    path('addlaptop', views.add_laptop, name='AddLaptop'),
+    path('laptopslist/', views.LaptopsListView.as_view(), name='LaptopsList'),
+    path('laptopdetail/<pk>/', views.LaptopDetailView.as_view(), name='LaptopDetail'),
+    path('laptopdelete/<pk>/', views.LaptopDeleteView.as_view(), name='LaptopDelete'),
 
 
 ]

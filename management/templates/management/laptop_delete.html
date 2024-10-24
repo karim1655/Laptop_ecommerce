@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Elimina Laptop - E-Laptop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Conferma Eliminazione</h2>
+    
+    <div class="card p-4 shadow-sm">
+        <h5>Sei sicuro di voler eliminare il laptop "{{ laptop.name }}"?</h5>
+        <p>Questa azione è irreversibile.</p>
+
+        <div class="d-flex justify-content-end">
+            <form action="{% url 'LaptopDelete' laptop.id %}" method="post" class="me-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Elimina</button>
+            </form>
+            <a href="{% url 'LaptopsList' %}" class="btn btn-secondary">Annulla</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

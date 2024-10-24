@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ laptop.name }} - E-Laptop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Immagine del laptop -->
+        <div class="col-md-6">
+            <img src="{{ laptop.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ laptop.name }}">
+        </div>
+
+        <!-- Dettagli del laptop -->
+        <div class="col-md-6">
+            <h2>{{ laptop.name }}</h2>
+            <p class="text-muted">{{ laptop.description }}</p>
+            <h4 class="text-primary">€{{ laptop.price }}</h4>
+
+            <!-- Aggiungi al carrello o altre azioni -->
+            <div class="d-grid gap-2 my-4">
+                <a href="#" class="btn btn-success btn-block">Aggiungi al Carrello</a>
+                <a href="{% url 'LaptopDelete' laptop.id %}" class="btn btn-danger btn-block">Elimina Prodotto</a>
+                <a href="{% url 'LaptopsList' %}" class="btn btn-secondary btn-block">Torna alla Lista Prodotti</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Descrizione dettagliata (opzionale) -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>Descrizione Dettagliata</h4>
+            <p>{{ laptop.long_description|default:"Nessuna descrizione dettagliata disponibile." }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
