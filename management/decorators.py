@@ -20,7 +20,7 @@ def seller_required(view_func):
 class SellerRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         laptop = get_object_or_404(Laptop, pk=kwargs['pk'])
-        if request.user.is_authenticated and request.user.user_type == 'seller':
-            if laptop.seller_id == request.user.id:
+        if request.user.is_authenticated and request.user.user_type == 'seller' or request.user.is_superuser:
+            if laptop.seller_id == request.user.id or request.user.is_superuser:
                 return super().dispatch(request, *args, **kwargs)
         raise PermissionDenied("Accesso riservato ai fornitori oppure fornitore corrente diverso dal fornitore che ha aggiunto questo laptop")
