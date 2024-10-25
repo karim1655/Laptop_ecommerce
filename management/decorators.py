@@ -10,7 +10,7 @@ from management.models import Laptop
 def seller_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.user_type == 'seller':
+        if request.user.is_authenticated and request.user.user_type == 'seller' or request.user.is_superuser:
             return view_func(request, *args, **kwargs)
         raise PermissionDenied("Accesso riservato ai fornitori")
     return _wrapped_view
