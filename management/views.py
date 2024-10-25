@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
@@ -8,6 +10,7 @@ from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
 from .forms import *
 from .models import CustomUser, Laptop
+from .decorators import seller_required, SellerRequiredMixin
 
 
 # Create your views here.
@@ -38,6 +41,8 @@ class LaptopsListView(ListView):
     template_name = 'management/laptops_list.html'
     title = 'Laptops list'
 
+@login_required
+@seller_required
 def add_laptop(request):
     if request.method == 'POST':
         form = LaptopForm(request.POST, request.FILES)
@@ -57,12 +62,12 @@ class LaptopDetailView(DetailView):
     model = Laptop
     template_name = 'management/laptop_detail.html'
 
-class LaptopDeleteView(DeleteView):
+class LaptopDeleteView(SellerRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Laptop
     template_name = 'management/laptop_delete.html'
     success_url = reverse_lazy('LaptopsList')
 
-class LaptopUpdateView(UpdateView):
+class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Laptop
     template_name = 'management/laptop_update.html'
     form_class = LaptopForm
@@ -70,3 +75,8 @@ class LaptopUpdateView(UpdateView):
     def get_success_url(self):
         pk = self.get_context_data()["object"].pk
         return reverse("LaptopDetail", kwargs={'pk': pk})
+
+@login_required
+@seller_required
+def seller_dashboard(request):
+    pass
