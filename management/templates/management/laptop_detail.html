@@ -27,7 +27,14 @@
                         {% endif %}
                     {% endif %}
                 {% endif %}
-                <a href="{% url 'LaptopsList' %}" class="btn btn-secondary btn-block">Torna alla Lista Prodotti</a>
+                <a href="{% url 'LaptopsList' %}" class="btn btn-secondary btn-block">Vai alla Lista Prodotti</a>
+                {% if user.is_authenticated %}
+                    {% if user.user_type == 'seller' or user.is_superuser %}
+                        {% if user.id == laptop.seller_id or user.is_superuser %}
+                            <a href="{% url 'SellerDashboard' user.id %}" class="btn btn-secondary btn-block">Vai alla Dashboard</a>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

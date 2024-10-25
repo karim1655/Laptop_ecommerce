@@ -78,5 +78,8 @@ class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
 
 @login_required
 @seller_required
-def seller_dashboard(request):
-    pass
+def seller_dashboard(request, seller_id):
+    ctx = {
+        "object_list" : Laptop.objects.filter(seller=seller_id),
+    }
+    return render(request, 'management/seller_dashboard.html', context=ctx)

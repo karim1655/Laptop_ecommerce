@@ -37,7 +37,7 @@ urlpatterns = [
     path('laptopdelete/<pk>/', views.LaptopDeleteView.as_view(), name='LaptopDelete'),
     path('laptopupdate/<pk>/', views.LaptopUpdateView.as_view(), name='LaptopUpdate'),
 
-    path('sellerdashboard/<pk>/', views.seller_dashboard, name='SellerDashboard'),
+    path('sellerdashboard/<seller_id>/', views.seller_dashboard, name='SellerDashboard'),
 
 
 ]

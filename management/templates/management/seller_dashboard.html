@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Lista Prodotti - E-Laptop{% endblock %}
+{% block title %}Dashboard - E-Laptop{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-center">Prodotti Disponibili</h2>
+        <h2 class="text-center">I miei prodotti</h2>
         <!-- Pulsante per aggiungere nuovi prodotti -->
-        <!-- <a href="{% url 'AddLaptop' %}" class="btn btn-success">Aggiungi Prodotto</a> -->
+        <a href="{% url 'AddLaptop' %}" class="btn btn-success">Aggiungi Prodotto</a>
     </div>
 
     <div class="row">

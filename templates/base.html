@@ -22,8 +22,9 @@
                     <!-- Dashboard solo per i fornitori e il superutente-->
                     {% if user.is_authenticated %}
                         {% if user.user_type == 'seller' or user.is_superuser %}
+                            <!-- OCCHIO CHE DEVI FARE UNA DASHBOARD SEPARATA PER IL SUPERUTENTE PRIMA O POI -->
                             <li class="nav-item">
-                            <a class="nav-link active" href="#">Dashboard</a>
+                            <a class="nav-link active" href="{% url 'SellerDashboard' user.id %}">Dashboard</a>
                             </li>
                         {% endif %}
                     {% endif %}
