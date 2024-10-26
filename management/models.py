@@ -22,6 +22,7 @@ class Laptop(models.Model):
     image = models.ImageField(upload_to='laptops/', blank=True, null=True)
 
     CATEGORY_CHOICES = (
+        ('', 'Select Category'),
         ('BL', 'Budget laptop'),
         ('HE', 'High end laptop'),
         ('CO', 'Convertible or 2-in-1'),

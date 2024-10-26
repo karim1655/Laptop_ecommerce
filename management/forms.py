@@ -58,8 +58,7 @@ class SearchForm(forms.Form):
     category = forms.ChoiceField(
         required=False,
         choices=Laptop.CATEGORY_CHOICES,
-        label="Category",
-        #empty_label="Select Category"
+        label="Category"
     )
 
 
