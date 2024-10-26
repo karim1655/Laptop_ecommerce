@@ -42,5 +42,24 @@ class LaptopForm(forms.ModelForm):
             raise forms.ValidationError("Price must be greater than 0")
         return price
 
+
 class SearchForm(forms.Form):
-    search_string = forms.CharField(label='Cerca')
+    name = forms.CharField(required=False, max_length=100, label="Laptop Name")
+    processor_model = forms.ModelChoiceField(
+        required=False,
+        queryset=Laptop.objects.values_list('processor_model', flat=True).distinct(),
+        label="Processor Model",
+        empty_label="Select Processor Model"
+    )
+    ram = forms.IntegerField(required=False, label="RAM (GB)")
+    storage = forms.IntegerField(required=False, label="Storage (GB)")
+    display_inches = forms.IntegerField(required=False, label="Display Size (inches)")
+    price = forms.DecimalField(required=False, max_digits=10, decimal_places=2, label="Price ($)")
+    category = forms.ChoiceField(
+        required=False,
+        choices=Laptop.CATEGORY_CHOICES,
+        label="Category",
+        #empty_label="Select Category"
+    )
+
+

@@ -76,6 +76,43 @@ class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
         pk = self.get_context_data()["object"].pk
         return reverse("LaptopDetail", kwargs={'pk': pk})
 
+
+def search(request):
+    if request.method == 'GET':
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            processor_model = form.cleaned_data.get("processor_model")
+            ram = form.cleaned_data.get("ram")
+            storage = form.cleaned_data.get("storage")
+            display_inches = form.cleaned_data.get("display_inches")
+            price = form.cleaned_data.get("price")
+            category = form.cleaned_data.get("category")
+
+            laptops = Laptop.objects.all()
+            if name:
+                laptops = laptops.filter(name__icontains=name)
+            if processor_model:
+                laptops = laptops.filter(processor_model__iexact=processor_model)
+            if ram:
+                laptops = laptops.filter(ram__iexact=ram)
+            if storage:
+                laptops = laptops.filter(storage__iexact=storage)
+            if display_inches:
+                laptops = laptops.filter(display_inches__iexact= display_inches)
+            if price:
+                laptops = laptops.filter(price__lte=price)
+            if category:
+                laptops = laptops.filter(category__icontains=category)
+
+            ctx = {
+                'form': form,
+                'laptops': laptops,
+            }
+
+    return render(request, 'management/search.html', ctx)
+
+
 @login_required
 @seller_required
 def seller_dashboard(request, seller_id):

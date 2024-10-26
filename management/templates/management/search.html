@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Search for a Laptop</h2>
+    <form method="get" action="">
+        
+        <div class="form-group mb-3">
+            <label for="id_name">Laptop Name</label>
+            <input type="text" name="name" class="form-control" id="id_name" maxlength="100" placeholder="Enter laptop name" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_processor_brand">Processor Model</label>
+            <select name="processor_brand" class="form-control" id="id_processor_brand">
+                <option value="">Select Processor Model</option>
+                {% for choice in form.fields.processor_model.queryset %}
+                    <option value="{{ choice }}">{{ choice }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_ram">RAM (GB)</label>
+            <input type="number" name="ram" class="form-control" id="id_ram" placeholder="Enter RAM size in GB" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_storage">Storage (GB)</label>
+            <input type="number" name="storage" class="form-control" id="id_storage" placeholder="Enter storage size in GB" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_display_inches">Display Size (inches)</label>
+            <input type="number" name="display_inches" class="form-control" id="id_display_inches" placeholder="Enter display size in inches" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_price">Price (€)</label>
+            <input type="number" name="price" class="form-control" id="id_price" step="0.01" placeholder="Enter price" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_category">Category</label>
+            <select name="category" class="form-control" id="id_category">
+                {% for choice, label in form.fields.category.choices %}
+                    <option value="{{ choice }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Search</button>
+    </form>
+</div>
+
+
+
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Risultati ricerca</h2>
+    </div>
+
+    <div class="row">
+        {% for laptop in laptops %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ laptop.name }}</h5>
+                        <p class="card-text">{{ laptop.display_inches }}'', {{ laptop.processor_brand }} {{ laptop.processor_model }} | {{ laptop.ram }}, {{ laptop.storage }} </p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'LaptopDetail' laptop.id %}" class="btn btn-primary">Visualizza Dettagli</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
