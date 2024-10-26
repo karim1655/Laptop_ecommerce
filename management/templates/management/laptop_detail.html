@@ -20,8 +20,8 @@
             <div class="d-grid gap-2 my-4">
                 <a href="#" class="btn btn-success btn-block">Aggiungi al Carrello</a>
                 {% if user.is_authenticated %}
-                    {% if user.user_type == 'seller' or user.is_superuser %}
-                        {% if user.id == laptop.seller_id or user.is_superuser %}
+                    {% if user.user_type == 'seller' %}
+                        {% if user.id == laptop.seller_id %}
                             <a href="{% url 'LaptopUpdate' laptop.id %}" class="btn btn-warning btn-block">Modifica Prodotto</a>
                             <a href="{% url 'LaptopDelete' laptop.id %}" class="btn btn-danger btn-block">Elimina Prodotto</a>
                         {% endif %}
@@ -29,8 +29,8 @@
                 {% endif %}
                 <a href="{% url 'LaptopsList' %}" class="btn btn-secondary btn-block">Vai alla Lista Prodotti</a>
                 {% if user.is_authenticated %}
-                    {% if user.user_type == 'seller' or user.is_superuser %}
-                        {% if user.id == laptop.seller_id or user.is_superuser %}
+                    {% if user.user_type == 'seller' %}
+                        {% if user.id == laptop.seller_id %}
                             <a href="{% url 'SellerDashboard' user.id %}" class="btn btn-secondary btn-block">Vai alla Dashboard</a>
                         {% endif %}
                     {% endif %}
