@@ -1,14 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
-from .forms import *
+from .forms import CustomUserCreationForm, LaptopForm, SearchForm
 from .models import CustomUser, Laptop
 from .decorators import seller_required, SellerRequiredMixin
 
@@ -51,7 +50,9 @@ def add_laptop(request):
             laptop.seller = request.user
             laptop.save()
             messages.success(request, 'Laptop created successfully')
-            return redirect('LaptopsList')
+
+            seller_id = request.user.id
+            return redirect('SellerDashboard', seller_id)
         else:
             messages.error(request, 'Laptop not created')
     else:
@@ -65,7 +66,9 @@ class LaptopDetailView(DetailView):
 class LaptopDeleteView(SellerRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Laptop
     template_name = 'management/laptop_delete.html'
-    success_url = reverse_lazy('LaptopsList')
+    def get_success_url(self):
+        seller_id = self.request.user.id
+        return reverse('SellerDashboard', kwargs={'seller_id': seller_id})
 
 class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Laptop
