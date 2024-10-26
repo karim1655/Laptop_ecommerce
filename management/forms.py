@@ -45,11 +45,10 @@ class LaptopForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     name = forms.CharField(required=False, max_length=100, label="Laptop Name")
-    processor_model = forms.ModelChoiceField(
+    processor_model = forms.ChoiceField(
         required=False,
-        queryset=Laptop.objects.values_list('processor_model', flat=True).distinct(),
+        choices = [],
         label="Processor Model",
-        empty_label="Select Processor Model"
     )
     ram = forms.IntegerField(required=False, label="RAM (GB)")
     storage = forms.IntegerField(required=False, label="Storage (GB)")
@@ -61,4 +60,8 @@ class SearchForm(forms.Form):
         label="Category"
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        processor_choices = [(model, model) for model in Laptop.objects.values_list('processor_model', flat=True).distinct()]
+        self.fields['processor_model'].choices = [("", "Select Processor Model")] + processor_choices
 

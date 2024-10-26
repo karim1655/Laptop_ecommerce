@@ -81,6 +81,8 @@ class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
 
 
 def search(request):
+    ctx = None
+
     if request.method == 'GET':
         form = SearchForm(request.GET)
         if form.is_valid():
