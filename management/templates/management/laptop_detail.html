@@ -39,11 +39,15 @@
         </div>
     </div>
 
-    <!-- Descrizione dettagliata (opzionale) -->
+    <!-- Specifiche tecniche -->
     <div class="row mt-5">
         <div class="col-md-12">
-            <h4>Descrizione Dettagliata</h4>
-            <p>{{ laptop.long_description|default:"Nessuna descrizione dettagliata disponibile." }}</p>
+            <h4>Specifiche tecniche</h4>
+            <p>Processor brand: {{ laptop.processor_brand }}</p>
+            <p>Processor model: {{ laptop.processor_model }}</p>
+            <p>RAM: {{ laptop.ram }} GB</p>
+            <p>Storage: {{ laptop.storage }} GB</p>
+            <p>Display: {{ laptop.display_inches }}''</p>
         </div>
     </div>
 </div>
