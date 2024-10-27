@@ -87,7 +87,7 @@ def search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             name = form.cleaned_data.get("name")
-            processor_model = form.cleaned_data.get("processor_model")
+            processor_brand = form.cleaned_data.get("processor_brand")
             ram = form.cleaned_data.get("ram")
             storage = form.cleaned_data.get("storage")
             display_inches = form.cleaned_data.get("display_inches")
@@ -97,8 +97,8 @@ def search(request):
             laptops = Laptop.objects.all()
             if name:
                 laptops = laptops.filter(name__icontains=name)
-            if processor_model:
-                laptops = laptops.filter(processor_model__iexact=processor_model)
+            if processor_brand:
+                laptops = laptops.filter(processor_brand__iexact=processor_brand)
             if ram:
                 laptops = laptops.filter(ram__iexact=ram)
             if storage:
