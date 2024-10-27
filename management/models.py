@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
 
 class Laptop(models.Model):
     name = models.CharField(max_length=100)
+    description = models.CharField(max_length=200, blank=True, null=True)
     processor_brand = models.CharField(max_length=100)
     processor_model = models.CharField(max_length=100)
     ram = models.IntegerField()
