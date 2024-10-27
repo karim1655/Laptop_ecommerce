@@ -13,7 +13,9 @@
         <!-- Dettagli del laptop -->
         <div class="col-md-6">
             <h2>{{ laptop.name }}</h2>
-            <p class="text-muted">{{ laptop.description }}</p>
+            {% if laptop.description %}
+                <p class="text-muted">{{ laptop.description }}</p>
+            {% endif %}
             <h4 class="text-primary">€{{ laptop.price }}</h4>
 
             <!-- Aggiungi al carrello o altre azioni -->
