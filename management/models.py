@@ -46,7 +46,7 @@ class LaptopReview(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    description = models.TextField(max_length=200, blank=True)
+    description = models.TextField(max_length=200, blank=True, null=True)
     creation_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -60,7 +60,7 @@ class SellerReview(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='seller_reviews')
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_reviews')
     rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    description = models.TextField(max_length=200, blank=True)
+    description = models.TextField(max_length=200, blank=True, null=True)
     creation_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
