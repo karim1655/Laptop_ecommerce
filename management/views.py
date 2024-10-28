@@ -131,7 +131,7 @@ def seller_dashboard(request, seller_id):
 def add_laptop_review(request, laptop_id):
     laptop = get_object_or_404(Laptop, id=laptop_id)
     if LaptopReview.objects.filter(laptop=laptop, user=request.user).exists():
-        messages.error(request, 'You have already reviewed this motorcycle.')
+        messages.error(request, 'You have already reviewed this laptop.')
         return redirect('LaptopDetail', laptop_id)
 
     if request.method == 'POST':

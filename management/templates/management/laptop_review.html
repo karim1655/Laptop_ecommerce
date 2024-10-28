@@ -25,7 +25,7 @@
                 <!-- Campo per la descrizione -->
                 <div class="mb-3">
                     <label for="id_description" class="form-label">Descrizione</label>
-                    <textarea name="description" id="id_description" cols="80" rows="4" class="form-control">{{ form.description.value }}</textarea>
+                    <textarea name="description" id="id_description" cols="80" rows="4" class="form-control">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
                 </div>
 
                 <!-- Pulsante per inviare la recensione -->
