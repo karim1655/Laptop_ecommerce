@@ -31,8 +31,6 @@ ALLOWED_HOSTS = []
 # Custom User
 AUTH_USER_MODEL = 'management.CustomUser'
 LOGIN_REDIRECT_URL = 'Home'
-#LOGOUT_REDIRECT_URL = 'Logout'
-#LOGIN_URL = 'Login'
 
 
 # Application definition
@@ -124,6 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
