@@ -13,6 +13,11 @@ from .decorators import seller_required, SellerRequiredMixin
 
 
 # Create your views here.
+
+def custom_403_view(request, exception):
+    return render(request, 'management/403.html', status=403)
+
+
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
