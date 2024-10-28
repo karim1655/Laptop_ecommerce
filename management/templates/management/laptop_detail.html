@@ -16,7 +16,7 @@
 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
             <i class="fas fa-star text-warning"></i>
-            {{ laptop.avg_rating }} &nbsp; <a href="{% url 'LaptopsList' %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
+            {{ laptop.avg_rating }} &nbsp; <a href="{% url 'LaptopReviewsList' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
 
 
             {% if laptop.description %}

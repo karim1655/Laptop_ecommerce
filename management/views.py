@@ -153,3 +153,13 @@ def add_laptop_review(request, laptop_id):
     else:
         form = LaptopReviewForm()
     return render(request, 'management/laptop_review.html', {'form': form})
+
+@login_required
+def laptop_reviews_list(request, laptop_id):
+    laptop = get_object_or_404(Laptop, id=laptop_id)
+    return render(request, 'management/laptop_reviews_list.html', {'laptop': laptop})
+
+
+@login_required
+def add_seller_review(request, seller_id):
+    pass
