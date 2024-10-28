@@ -144,4 +144,4 @@ def add_laptop_review(request, laptop_id):
             return redirect('LaptopDetail', laptop_id)
     else:
         form = LaptopReviewForm()
-        return render(request, 'management/laptop_review.html', {'form': form})
+    return render(request, 'management/laptop_review.html', {'form': form})
