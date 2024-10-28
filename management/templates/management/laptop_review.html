@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Lascia una Recensione - E-Laptop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Lascia una Recensione</h2>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Formulario recensione -->
+            <form method="post" class="bg-light p-4 rounded shadow-sm">
+                {% csrf_token %}
+                
+                <!-- Campo per il rating -->
+                <div class="mb-3">
+                    <label for="id_rating" class="form-label">Valutazione</label>
+                    <select name="rating" id="id_rating" class="form-select">
+                        {% for choice in form.fields.rating.choices %}
+                            <option value="{{ choice.0 }}" {% if form.rating.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Campo per la descrizione -->
+                <div class="mb-3">
+                    <label for="id_description" class="form-label">Descrizione</label>
+                    <textarea name="description" id="id_description" cols="80" rows="4" class="form-control">{{ form.description.value }}</textarea>
+                </div>
+
+                <!-- Pulsante per inviare la recensione -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-block">Invia Recensione</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -41,6 +41,8 @@ urlpatterns = [
 
     path('sellerdashboard/<seller_id>/', views.seller_dashboard, name='SellerDashboard'),
 
+    path('laptopreview/<laptop_id>/', views.add_laptop_review, name='LaptopReview'),
+
 
 
 

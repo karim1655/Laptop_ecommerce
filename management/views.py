@@ -6,9 +6,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, LaptopForm, SearchForm
-from .models import CustomUser, Laptop
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm
+from .models import CustomUser, Laptop, LaptopReview
 from .decorators import seller_required, SellerRequiredMixin
 
 
@@ -125,3 +125,23 @@ def seller_dashboard(request, seller_id):
         "object_list" : Laptop.objects.filter(seller=seller_id),
     }
     return render(request, 'management/seller_dashboard.html', context=ctx)
+
+
+@login_required
+def add_laptop_review(request, laptop_id):
+    laptop = get_object_or_404(Laptop, id=laptop_id)
+    if LaptopReview.objects.filter(laptop=laptop, user=request.user).exists():
+        messages.error(request, 'You have already reviewed this motorcycle.')
+        return redirect('LaptopDetail', laptop_id)
+
+    if request.method == 'POST':
+        form = LaptopReviewForm(request.POST)
+        if form.is_valid():
+            laptop_review = form.save(commit=False)
+            laptop_review.user = request.user
+            laptop_review.laptop = laptop
+            laptop_review.save()
+            return redirect('LaptopDetail', laptop_id)
+    else:
+        form = LaptopReviewForm()
+        return render(request, 'management/laptop_review.html', {'form': form})

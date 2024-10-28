@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, Laptop
+from .models import CustomUser, Laptop, LaptopReview, SellerReview
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -64,3 +64,22 @@ class SearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         processor_choices = [(model, model) for model in Laptop.objects.values_list('processor_brand', flat=True).distinct()]
         self.fields['processor_brand'].choices = [("", "Select Processor Brand")] + processor_choices
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        widgets = {
+            'rating': forms.Select(choices=[(i, str(i)) for i in range(1, 6)]),
+            'description': forms.Textarea(attrs={'cols': 80, 'rows': 4})
+        }
+
+class LaptopReviewForm(ReviewForm):
+    class Meta:
+        model = LaptopReview
+        fields = ['rating', 'description']
+
+
+class SellerReviewForm(ReviewForm):
+    class Meta:
+        model = SellerReview
+        fields = ['rating', 'description']
