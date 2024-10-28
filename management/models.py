@@ -53,7 +53,7 @@ class LaptopReview(models.Model):
         unique_together = (('user', 'laptop'),)
 
     def __str__(self):
-        return f"{self.user}'s review for {self.laptop} by {self.laptop.seller}"
+        return f"{self.user}'s review for {self.laptop.name} {self.laptop.display_inches}'' {self.laptop.processor_brand} {self.laptop.ram}/{self.laptop.storage} by {self.laptop.seller}"
 
 
 class SellerReview(models.Model):
