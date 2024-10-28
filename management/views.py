@@ -134,6 +134,9 @@ def seller_dashboard(request, seller_id):
 
 @login_required
 def add_laptop_review(request, laptop_id):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers cannot add reviews')
+        return redirect('Home')
     laptop = get_object_or_404(Laptop, id=laptop_id)
     if LaptopReview.objects.filter(laptop=laptop, user=request.user).exists():
         messages.error(request, 'You have already reviewed this laptop.')
