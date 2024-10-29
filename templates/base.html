@@ -32,6 +32,20 @@
                         <a class="nav-link" href="{% url 'LaptopsList' %}">Prodotti</a>
                     </li>
 
+                    <!-- Carrello solo per gli acquirenti -->
+                    {% if user.is_authenticated %}
+                        {% if user.user_type == 'buyer' %}
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'Home' %}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Carrello
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+
                     <!-- Login/Logout -->
                     {% if user.is_authenticated %}
                         <li class="nav-item">
