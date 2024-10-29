@@ -38,7 +38,8 @@ class Laptop(models.Model):
     def avg_rating(self):
         laptop_reviews = self.laptopreview_set.all()
         if laptop_reviews.exists():
-            return sum(laptop_review.rating for laptop_review in laptop_reviews) / laptop_reviews.count()
+            avg = sum(laptop_review.rating for laptop_review in laptop_reviews) / laptop_reviews.count()
+            return round(avg, 2)
         return 0
 
 

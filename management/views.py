@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm, SellerReviewForm
 from .models import CustomUser, Laptop, LaptopReview
 from .decorators import seller_required, SellerRequiredMixin
+from .recommendations import get_recommendations
 
 
 # Create your views here.
@@ -36,8 +37,10 @@ class CustomLoginView(LoginView):
 class CustomLogoutView(LogoutView):
     template_name = 'registration/logged_out.html'
 
+
 def home(request):
-    return render(request, 'management/home.html')
+    recommended_laptops = get_recommendations(request.user)
+    return render(request, 'management/home.html', {'recommended_laptops': recommended_laptops})
 
 
 class LaptopsListView(ListView):

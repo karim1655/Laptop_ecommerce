@@ -9,40 +9,32 @@
         <!--<a href="#" class="btn btn-light mt-3">Scopri di più</a>   -->
     </div>
 
-    <h2 class="text-center my-5">Prodotti in Evidenza</h2>
+    {% if user.is_authenticated %}
+        <h2 class="text-center my-5">Utenti simili a te hanno apprezzato:</h2>
+    {% else %}
+        <h2 class="text-center my-5">Registrati o accedi per ricevere consigli sugli acquisti</h2>
+        <br>
+        <br>
+        <br>
+        <br>
+    {% endif %}
+
     <div class="row">
-        <!-- Product 1 -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Laptop 1">
-                <div class="card-body">
-                    <h5 class="card-title">Laptop XYZ</h5>
-                    <p class="card-text">Un laptop potente e versatile per tutte le tue esigenze lavorative.</p>
-                    <a href="#" class="btn btn-primary">Acquista ora</a>
+        {% for laptop in recommended_laptops %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ laptop.name }}    |    €{{ laptop.price }} </h5>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                        <i class="fas fa-star text-warning"></i> {{ laptop.avg_rating }}
+                        <p class="card-text">{{ laptop.display_inches }}'', {{ laptop.processor_brand }} {{ laptop.processor_model }} | {{ laptop.ram }}, {{ laptop.storage }} </p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'LaptopDetail' laptop.id %}" class="btn btn-primary">Visualizza Dettagli</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Product 2 -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Desktop 2">
-                <div class="card-body">
-                    <h5 class="card-title">Desktop ABC</h5>
-                    <p class="card-text">Un desktop affidabile e performante per casa o ufficio.</p>
-                    <a href="#" class="btn btn-primary">Acquista ora</a>
-                </div>
-            </div>
-        </div>
-        <!-- Product 3 -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Monitor 3">
-                <div class="card-body">
-                    <h5 class="card-title">Monitor Full HD</h5>
-                    <p class="card-text">Schermo ad alta definizione per la massima qualità visiva.</p>
-                    <a href="#" class="btn btn-primary">Acquista ora</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock %}
