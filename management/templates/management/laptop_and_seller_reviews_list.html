@@ -6,7 +6,7 @@
 <div class="row mt-5">
     <div class="col-md-12">
         <div class="d-flex justify-content-between align-items-center">
-            <h4>Recensioni</h4>
+            <h3>Recensioni al laptop</h3>
             <a href="{% url 'LaptopDetail' laptop.id %}" class="btn btn-secondary">Indietro</a>
         </div>
 
@@ -33,5 +33,42 @@
             <p class="text-muted">Nessuna recensione disponibile per questo prodotto.</p>
         {% endif %}
     </div>
+
+
+
+
+
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Recensioni al fornitore</h3>
+        </div>
+
+        {% if seller.user_reviews.exists %}
+            <div class="row mt-4">
+                {% for review in seller.user_reviews.all %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ review.title }}</h5>
+                                <p class="card-text">{{ review.description }}</p>
+                                <p class="text-muted">Valutazione:
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                                    <i class="fas fa-star text-warning"></i>
+                                    {{ review.rating }}/5 - di {{ review.user.username }}
+                                </p>
+                                <p class="text-muted">{{ review.creation_time|date:"d/m/Y H:i" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">Nessuna recensione disponibile per questo fornitore.</p>
+        {% endif %}
+    </div>
+
+
+
+
 </div>
 {% endblock %}

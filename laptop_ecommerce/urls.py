@@ -43,7 +43,7 @@ urlpatterns = [
     path('sellerdashboard/<int:seller_id>/', views.seller_dashboard, name='SellerDashboard'),
 
     path('laptopreview/<int:laptop_id>/', views.add_laptop_review, name='LaptopReview'),
-    path('laptopdetail/<int:laptop_id>/reviews', views.laptop_reviews_list, name='LaptopReviewsList'),
+    path('laptopdetail/<int:laptop_id>/reviews', views.laptop_and_seller_reviews_list, name='LaptopAndSellerReviewsList'),
     path('sellerreview/<int:seller_id>/<int:laptop_id>', views.add_seller_review, name='SellerReview'),
 
 

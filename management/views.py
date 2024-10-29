@@ -155,9 +155,10 @@ def add_laptop_review(request, laptop_id):
     return render(request, 'management/laptop_review.html', {'form': form, 'laptop_id': laptop_id})
 
 @login_required
-def laptop_reviews_list(request, laptop_id):
+def laptop_and_seller_reviews_list(request, laptop_id):
     laptop = get_object_or_404(Laptop, id=laptop_id)
-    return render(request, 'management/laptop_reviews_list.html', {'laptop': laptop})
+    seller = get_object_or_404(CustomUser, id=laptop.seller_id)
+    return render(request, 'management/laptop_and_seller_reviews_list.html', {'laptop': laptop, 'seller': seller})
 
 
 @login_required

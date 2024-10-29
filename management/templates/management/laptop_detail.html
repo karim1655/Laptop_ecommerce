@@ -20,7 +20,7 @@
             <i class="fas fa-star text-warning"></i>
             {{ laptop.avg_rating }}
             {% if user.is_authenticated %}
-                &nbsp; <a href="{% url 'LaptopReviewsList' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
+                &nbsp; <a href="{% url 'LaptopAndSellerReviewsList' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
             {% endif %}
 
             {% if laptop.description %}
