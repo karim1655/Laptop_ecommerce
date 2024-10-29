@@ -40,10 +40,11 @@ urlpatterns = [
 
     path('search', views.search, name='Search'),
 
-    path('sellerdashboard/<seller_id>/', views.seller_dashboard, name='SellerDashboard'),
+    path('sellerdashboard/<int:seller_id>/', views.seller_dashboard, name='SellerDashboard'),
 
-    path('laptopreview/<laptop_id>/', views.add_laptop_review, name='LaptopReview'),
-    path('laptopdetail/<laptop_id>/reviews', views.laptop_reviews_list, name='LaptopReviewsList'),
+    path('laptopreview/<int:laptop_id>/', views.add_laptop_review, name='LaptopReview'),
+    path('laptopdetail/<int:laptop_id>/reviews', views.laptop_reviews_list, name='LaptopReviewsList'),
+    path('sellerreview/<int:seller_id>/<int:laptop_id>', views.add_seller_review, name='SellerReview'),
 
 
 

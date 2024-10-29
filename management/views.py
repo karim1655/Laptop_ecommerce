@@ -7,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm
+from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm, SellerReviewForm
 from .models import CustomUser, Laptop, LaptopReview
 from .decorators import seller_required, SellerRequiredMixin
 
@@ -135,7 +135,7 @@ def seller_dashboard(request, seller_id):
 @login_required
 def add_laptop_review(request, laptop_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers cannot add reviews')
+        messages.error(request, 'Sellers cannot add reviews to laptops')
         return redirect('Home')
     laptop = get_object_or_404(Laptop, id=laptop_id)
     if LaptopReview.objects.filter(laptop=laptop, user=request.user).exists():
@@ -152,7 +152,7 @@ def add_laptop_review(request, laptop_id):
             return redirect('LaptopDetail', laptop_id)
     else:
         form = LaptopReviewForm()
-    return render(request, 'management/laptop_review.html', {'form': form})
+    return render(request, 'management/laptop_review.html', {'form': form, 'laptop_id': laptop_id})
 
 @login_required
 def laptop_reviews_list(request, laptop_id):
@@ -161,5 +161,20 @@ def laptop_reviews_list(request, laptop_id):
 
 
 @login_required
-def add_seller_review(request, seller_id):
-    pass
+def add_seller_review(request, seller_id, laptop_id):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers cannot add reviews to sellers')
+        return redirect('Home')
+    seller = get_object_or_404(CustomUser, id=seller_id)
+    if request.method == 'POST':
+        form = SellerReviewForm(request.POST)
+        if form.is_valid():
+            seller_review = form.save(commit=False)
+            seller_review.user = request.user
+            seller_review.seller = seller
+            seller_review.save()
+            messages.success(request, 'Seller review created successfully')
+            return redirect('LaptopDetail', laptop_id)
+    else:
+        form = SellerReviewForm()
+    return render(request, 'management/seller_review.html', {'form': form, 'seller': seller, 'laptop_id': laptop_id})

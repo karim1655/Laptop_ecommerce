@@ -37,6 +37,7 @@
                     {% if user.user_type == 'buyer' %}
                         <a href="#" class="btn btn-success btn-block">Aggiungi al Carrello</a>
                         <a href="{% url 'LaptopReview' laptop.id %}" class="btn btn-warning btn-block">Recensione al Laptop</a>
+                        <a href="{% url 'SellerReview' laptop.seller_id laptop.id %}" class="btn btn-warning btn-block">Recensione al Fornitore</a>
                     {% endif %}
 
                     {% if user.user_type == 'seller' %}
