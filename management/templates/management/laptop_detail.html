@@ -12,8 +12,10 @@
 
         <!-- Dettagli del laptop -->
         <div class="col-md-6">
-            <h2>{{ laptop.name }}</h2>
+            <h2 style="display: inline;">{{ laptop.name }}</h2>
+            <p style="display: inline; margin-left: 20px;">by {{ laptop.seller }}</p>
 
+            <br>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
             <i class="fas fa-star text-warning"></i>
             {{ laptop.avg_rating }}
@@ -24,6 +26,7 @@
             {% if laptop.description %}
                 <p class="text-muted">{{ laptop.description }}</p>
             {% endif %}
+
 
             <h4 class="text-primary">€{{ laptop.price }}</h4>
 
