@@ -37,6 +37,21 @@ class UserTests(TestCase):
         # Verifica che l'utente sia stato creato
         self.assertTrue(User.objects.filter(username='newuser').exists())
 
+    def test_register_with_too_common_password(self):
+        response = self.client.post(reverse('register'), {
+            'username': 'newuser',
+            'password1': 'password',  # Password troppo comune
+            'password2': 'password',
+            'user_type': 'buyer'
+        })
+        # Assicurati che il codice di stato sia 200, indicando che la pagina di registrazione è stata restituita
+        self.assertEqual(response.status_code, 200)
+        # Ottieni il modulo dalla risposta
+        form = response.context['form']
+        # Verifica che ci sia un errore nel campo 'password2'
+        self.assertTrue(form.errors['password2'])  # Assicurati che ci sia un errore
+        self.assertIn('This password is too common.', form.errors['password2'])  # Assicurati che il messaggio di errore sia corretto
+
     def test_login(self):
         response = self.client.post(reverse('login'), {
             'username': 'buyer',
@@ -44,6 +59,16 @@ class UserTests(TestCase):
         })
         self.assertEqual(response.status_code, 302)  # Should redirect after login
         self.assertEqual(str(response.wsgi_request.user), 'buyer')
+
+    def test_login_with_incorrect_credentials(self):
+        response = self.client.post(reverse('login'), {
+            'username': 'wronguser',
+            'password': 'wrongpassword'
+        })
+        # Assicurati che il codice di stato sia 200, indicando che la pagina di login è stata restituita
+        self.assertEqual(response.status_code, 200)
+        # Verifica che il messaggio di errore corretto sia presente nella risposta
+        self.assertContains(response, 'Please enter a correct username and password. Note that both fields may be case-sensitive.')
 
     def test_add_laptop_as_seller(self):
         self.client.login(username='seller', password='password')
@@ -59,6 +84,26 @@ class UserTests(TestCase):
         })
         self.assertEqual(response.status_code, 302)  # Should redirect
         self.assertTrue(Laptop.objects.filter(name='New Laptop').exists())
+
+    def test_add_laptop_with_missing_fields(self):
+        self.client.login(username='seller', password='password')
+        response = self.client.post(reverse('add_laptop'), {
+            'name': '',  # Missing laptop name
+            'processor_brand': 'AMD',
+            'processor_model': 'Ryzen 5',
+            'ram': 16,
+            'storage': 512,
+            'display_inches': 15,
+            'price': 1200.00,
+            'category': 'GA',
+        })
+        # Assicurati che il codice di stato sia 200, indicando che la pagina è stata restituita
+        self.assertEqual(response.status_code, 200)  # Should return the add laptop page
+        # Ottieni il modulo dalla risposta
+        form = response.context['form']
+        # Verifica che ci sia un errore nel campo 'name'
+        self.assertTrue(form.errors['name'])  # Assicurati che ci sia un errore
+        self.assertIn('This field is required.', form.errors['name'])  # Assicurati che il messaggio di errore sia corretto
 
     def test_add_laptop_review(self):
         self.client.login(username='buyer', password='password')
@@ -78,7 +123,16 @@ class UserTests(TestCase):
         response = self.client.get(reverse('seller_dashboard', args=[self.seller.id]))
         self.assertEqual(response.status_code, 302)  # Should redirect to login
 
+    def test_access_seller_dashboard_as_buyer(self):
+        self.client.login(username='buyer', password='password')
+        response = self.client.get(reverse('seller_dashboard', args=[self.seller.id]))
+        self.assertEqual(response.status_code, 403)  # Should return a forbidden error
+
     def test_laptop_detail_view(self):
+        response = self.client.get(reverse('laptop_detail', args=[self.laptop.id]))
+        self.assertEqual(response.status_code, 200)  # Should return the laptop detail page
+
+    def test_laptop_detail_view_without_login(self):
         response = self.client.get(reverse('laptop_detail', args=[self.laptop.id]))
         self.assertEqual(response.status_code, 200)  # Should return the laptop detail page
 
