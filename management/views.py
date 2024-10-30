@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from numpy.ma.extras import average
 
 from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm, SellerReviewForm
-from .models import CustomUser, Laptop, LaptopReview
+from .models import CustomUser, Laptop, LaptopReview, SellerReview
 from .decorators import seller_required, SellerRequiredMixin
 from .recommendations import get_recommendations
 from django.db.models import Avg
@@ -135,8 +135,11 @@ def search(request):
 @login_required
 @seller_required
 def seller_dashboard(request, seller_id):
+    seller_reviews = SellerReview.objects.filter(seller_id=seller_id)
+
     ctx = {
         "object_list" : Laptop.objects.filter(seller=seller_id),
+        "seller_reviews": seller_reviews
     }
     return render(request, 'management/seller_dashboard.html', context=ctx)
 

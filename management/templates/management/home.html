@@ -10,9 +10,11 @@
     </div>
 
     {% if user.is_authenticated %}
-        <h2 class="text-center my-5">Utenti simili a te hanno apprezzato:</h2>
+        {% if user.user_type == 'buyer'%}
+            <h2 class="text-center my-5">Utenti simili a te hanno apprezzato:</h2>
+        {% endif %}
     {% else %}
-        <h2 class="text-center my-5">Registrati o accedi per ricevere consigli sugli acquisti</h2>
+        <h2 class="text-center my-5">Registrati o accedi come acquirente per ricevere consigli sugli acquisti</h2>
     {% endif %}
 
     <div class="row">
