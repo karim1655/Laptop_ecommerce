@@ -3,7 +3,7 @@
 {% block title %}Home - E-Laptop{% endblock %}
 
 {% block content %}
-    <div class="container-fluid bg-primary text-white text-center py-5">
+    <div class="container-fluid bg-primary text-white text-center py-4">
         <h1>Benvenuti su E-Laptop</h1>
         <p>Trova i migliori laptop, computer e accessori per tutte le tue esigenze</p>
         <!--<a href="#" class="btn btn-light mt-3">Scopri di più</a>   -->
@@ -13,14 +13,31 @@
         <h2 class="text-center my-5">Utenti simili a te hanno apprezzato:</h2>
     {% else %}
         <h2 class="text-center my-5">Registrati o accedi per ricevere consigli sugli acquisti</h2>
-        <br>
-        <br>
-        <br>
-        <br>
     {% endif %}
 
     <div class="row">
         {% for laptop in recommended_laptops %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ laptop.name }}    |    €{{ laptop.price }} </h5>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                        <i class="fas fa-star text-warning"></i> {{ laptop.avg_rating }}
+                        <p class="card-text">{{ laptop.display_inches }}'', {{ laptop.processor_brand }} {{ laptop.processor_model }} | {{ laptop.ram }}, {{ laptop.storage }} </p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'LaptopDetail' laptop.id %}" class="btn btn-primary">Visualizza Dettagli</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <h2 class="text-center my-5">I più apprezzati:</h2>
+    <div class="row">
+        {% for laptop in most_highly_rated %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">

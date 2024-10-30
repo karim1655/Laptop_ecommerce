@@ -7,10 +7,13 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.shortcuts import render, redirect, get_object_or_404
+from numpy.ma.extras import average
+
 from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm, SellerReviewForm
 from .models import CustomUser, Laptop, LaptopReview
 from .decorators import seller_required, SellerRequiredMixin
 from .recommendations import get_recommendations
+from django.db.models import Avg
 
 
 # Create your views here.
@@ -40,7 +43,10 @@ class CustomLogoutView(LogoutView):
 
 def home(request):
     recommended_laptops = get_recommendations(request.user)
-    return render(request, 'management/home.html', {'recommended_laptops': recommended_laptops})
+    most_highly_rated = Laptop.objects.annotate(
+        avg = Avg('laptopreview__rating')
+    ).order_by('-avg')[:6]
+    return render(request, 'management/home.html', {'recommended_laptops': recommended_laptops, 'most_highly_rated': most_highly_rated})
 
 
 class LaptopsListView(ListView):
