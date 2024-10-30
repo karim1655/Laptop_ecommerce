@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center">Prodotti Disponibili</h2>
         <!-- Pulsante per cercare -->
-        <a href="{% url 'Search' %}" class="btn btn-success">Cerca</a>
+        <a href="{% url 'search' %}" class="btn btn-success">Cerca</a>
     </div>
 
     <div class="row">
@@ -21,7 +21,7 @@
                         <i class="fas fa-star text-warning"></i> {{ laptop.avg_rating }}
                         <p class="card-text">{{ laptop.display_inches }}'', {{ laptop.processor_brand }} {{ laptop.processor_model }} | {{ laptop.ram }}, {{ laptop.storage }} </p>
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'LaptopDetail' laptop.id %}" class="btn btn-primary">Visualizza Dettagli</a>
+                            <a href="{% url 'laptop_detail' laptop.id %}" class="btn btn-primary">Visualizza Dettagli</a>
                         </div>
                     </div>
                 </div>

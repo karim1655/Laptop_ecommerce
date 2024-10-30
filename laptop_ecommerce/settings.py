@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # Custom User
 AUTH_USER_MODEL = 'management.CustomUser'
-LOGIN_REDIRECT_URL = 'Home'
+LOGIN_REDIRECT_URL = 'home'
 
 
 # Application definition

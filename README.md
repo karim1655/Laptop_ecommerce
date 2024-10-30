@@ -65,7 +65,7 @@ Fornitori:
 ## Testing
 Per eseguire i test:
 ```
-python manage.py test
+python manage.py management/tests
 ```
 
 

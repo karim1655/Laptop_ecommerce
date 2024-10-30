@@ -11,11 +11,11 @@
         <p>Questa azione è irreversibile.</p>
 
         <div class="d-flex justify-content-end">
-            <form action="{% url 'LaptopDelete' laptop.id %}" method="post" class="me-2">
+            <form action="{% url 'laptop_delete' laptop.id %}" method="post" class="me-2">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Elimina</button>
             </form>
-            <a href="{% url 'LaptopsList' %}" class="btn btn-secondary">Annulla</a>
+            <a href="{% url 'laptops_list' %}" class="btn btn-secondary">Annulla</a>
         </div>
     </div>
 </div>

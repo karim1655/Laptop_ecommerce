@@ -24,27 +24,27 @@ from management import views
 from management.views import custom_403_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name='Admin'),
+    path('admin/', admin.site.urls, name='admin'),
 
-    path('', views.home, name='Home'),
+    path('', views.home, name='home'),
 
-    path('register/', views.register, name='Register'),
-    path('login/', views.CustomLoginView.as_view(), name='Login'),
-    path('logout/', views.CustomLogoutView.as_view(next_page='Home'), name='Logout'),
+    path('register/', views.register, name='register'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', views.CustomLogoutView.as_view(next_page='home'), name='logout'),
 
-    path('addlaptop', views.add_laptop, name='AddLaptop'),
-    path('laptopslist/', views.LaptopsListView.as_view(), name='LaptopsList'),
-    path('laptopdetail/<pk>/', views.LaptopDetailView.as_view(), name='LaptopDetail'),
-    path('laptopdelete/<pk>/', views.LaptopDeleteView.as_view(), name='LaptopDelete'),
-    path('laptopupdate/<pk>/', views.LaptopUpdateView.as_view(), name='LaptopUpdate'),
+    path('addlaptop', views.add_laptop, name='add_laptop'),
+    path('laptopslist/', views.LaptopsListView.as_view(), name='laptops_list'),
+    path('laptopdetail/<pk>/', views.LaptopDetailView.as_view(), name='laptop_detail'),
+    path('laptopdelete/<pk>/', views.LaptopDeleteView.as_view(), name='laptop_delete'),
+    path('laptopupdate/<pk>/', views.LaptopUpdateView.as_view(), name='laptop_update'),
 
-    path('search', views.search, name='Search'),
+    path('search', views.search, name='search'),
 
-    path('sellerdashboard/<int:seller_id>/', views.seller_dashboard, name='SellerDashboard'),
+    path('sellerdashboard/<int:seller_id>/', views.seller_dashboard, name='seller_dashboard'),
 
-    path('laptopreview/<int:laptop_id>/', views.add_laptop_review, name='LaptopReview'),
-    path('laptopdetail/<int:laptop_id>/reviews', views.laptop_and_seller_reviews_list, name='LaptopAndSellerReviewsList'),
-    path('sellerreview/<int:seller_id>/<int:laptop_id>', views.add_seller_review, name='SellerReview'),
+    path('laptopreview/<int:laptop_id>/', views.add_laptop_review, name='laptop_review'),
+    path('laptopdetail/<int:laptop_id>/reviews', views.laptop_and_seller_reviews_list, name='laptop_and_seller_reviews_list'),
+    path('sellerreview/<int:seller_id>/<int:laptop_id>', views.add_seller_review, name='seller_review'),
 
 
 

@@ -20,7 +20,7 @@
             <i class="fas fa-star text-warning"></i>
             {{ laptop.avg_rating }}
             {% if user.is_authenticated %}
-                &nbsp; <a href="{% url 'LaptopAndSellerReviewsList' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
+                &nbsp; <a href="{% url 'laptop_and_seller_reviews_list' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
             {% endif %}
 
             {% if laptop.description %}
@@ -36,25 +36,25 @@
 
                     {% if user.user_type == 'buyer' %}
                         <a href="#" class="btn btn-success btn-block">Aggiungi al Carrello</a>
-                        <a href="{% url 'LaptopReview' laptop.id %}" class="btn btn-warning btn-block">Recensione al Laptop</a>
-                        <a href="{% url 'SellerReview' laptop.seller_id laptop.id %}" class="btn btn-warning btn-block">Recensione al Fornitore</a>
+                        <a href="{% url 'laptop_review' laptop.id %}" class="btn btn-warning btn-block">Recensione al Laptop</a>
+                        <a href="{% url 'seller_review' laptop.seller_id laptop.id %}" class="btn btn-warning btn-block">Recensione al Fornitore</a>
                     {% endif %}
 
                     {% if user.user_type == 'seller' %}
                         {% if user.id == laptop.seller_id %}
-                            <a href="{% url 'LaptopUpdate' laptop.id %}" class="btn btn-info btn-block">Modifica Prodotto</a>
-                            <a href="{% url 'LaptopDelete' laptop.id %}" class="btn btn-danger btn-block">Elimina Prodotto</a>
+                            <a href="{% url 'laptop_update' laptop.id %}" class="btn btn-info btn-block">Modifica Prodotto</a>
+                            <a href="{% url 'laptop_delete' laptop.id %}" class="btn btn-danger btn-block">Elimina Prodotto</a>
                         {% endif %}
                     {% endif %}
 
                 {% endif %}
 
-                <a href="{% url 'LaptopsList' %}" class="btn btn-secondary btn-block">Vai alla Lista Prodotti</a>
+                <a href="{% url 'laptops_list' %}" class="btn btn-secondary btn-block">Vai alla Lista Prodotti</a>
 
                 {% if user.is_authenticated %}
                     {% if user.user_type == 'seller' %}
                         {% if user.id == laptop.seller_id %}
-                            <a href="{% url 'SellerDashboard' user.id %}" class="btn btn-secondary btn-block">Vai alla Dashboard</a>
+                            <a href="{% url 'seller_dashboard' user.id %}" class="btn btn-secondary btn-block">Vai alla Dashboard</a>
                         {% endif %}
                     {% endif %}
                 {% endif %}

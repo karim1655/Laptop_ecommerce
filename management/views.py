@@ -28,7 +28,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('Home')
+            return redirect('home')
     else:
         form = CustomUserCreationForm()
 
@@ -66,7 +66,7 @@ def add_laptop(request):
             messages.success(request, 'Laptop created successfully')
 
             seller_id = request.user.id
-            return redirect('SellerDashboard', seller_id)
+            return redirect('seller_dashboard', seller_id)
         else:
             messages.error(request, 'Laptop not created')
     else:
@@ -82,7 +82,7 @@ class LaptopDeleteView(SellerRequiredMixin, LoginRequiredMixin, DeleteView):
     template_name = 'management/laptop_delete.html'
     def get_success_url(self):
         seller_id = self.request.user.id
-        return reverse('SellerDashboard', kwargs={'seller_id': seller_id})
+        return reverse('seller_dashboard', kwargs={'seller_id': seller_id})
 
 class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Laptop
@@ -91,7 +91,7 @@ class LaptopUpdateView(SellerRequiredMixin, LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         pk = self.get_context_data()["object"].pk
-        return reverse("LaptopDetail", kwargs={'pk': pk})
+        return reverse("laptop_detail", kwargs={'pk': pk})
 
 
 def search(request):
@@ -148,11 +148,11 @@ def seller_dashboard(request, seller_id):
 def add_laptop_review(request, laptop_id):
     if request.user.user_type != 'buyer':
         messages.error(request, 'Sellers cannot add reviews to laptops')
-        return redirect('Home')
+        return redirect('home')
     laptop = get_object_or_404(Laptop, id=laptop_id)
     if LaptopReview.objects.filter(laptop=laptop, user=request.user).exists():
         messages.error(request, 'You have already reviewed this laptop.')
-        return redirect('LaptopDetail', laptop_id)
+        return redirect('laptop_detail', laptop_id)
 
     if request.method == 'POST':
         form = LaptopReviewForm(request.POST)
@@ -161,7 +161,7 @@ def add_laptop_review(request, laptop_id):
             laptop_review.user = request.user
             laptop_review.laptop = laptop
             laptop_review.save()
-            return redirect('LaptopDetail', laptop_id)
+            return redirect('laptop_detail', laptop_id)
     else:
         form = LaptopReviewForm()
     return render(request, 'management/laptop_review.html', {'form': form, 'laptop_id': laptop_id})
@@ -177,7 +177,7 @@ def laptop_and_seller_reviews_list(request, laptop_id):
 def add_seller_review(request, seller_id, laptop_id):
     if request.user.user_type != 'buyer':
         messages.error(request, 'Sellers cannot add reviews to sellers')
-        return redirect('Home')
+        return redirect('home')
     seller = get_object_or_404(CustomUser, id=seller_id)
     if request.method == 'POST':
         form = SellerReviewForm(request.POST)
@@ -187,7 +187,7 @@ def add_seller_review(request, seller_id, laptop_id):
             seller_review.seller = seller
             seller_review.save()
             messages.success(request, 'Seller review created successfully')
-            return redirect('LaptopDetail', laptop_id)
+            return redirect('laptop_detail', laptop_id)
     else:
         form = SellerReviewForm()
     return render(request, 'management/seller_review.html', {'form': form, 'seller': seller, 'laptop_id': laptop_id})
