@@ -7,7 +7,9 @@
     <div class="row">
         <!-- Immagine del laptop -->
         <div class="col-md-6">
-            <img src="{{ laptop.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ laptop.name }}">
+            {% if laptop.image %}
+                <img src="{{ laptop.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ laptop.name }}">
+            {% endif %}
         </div>
 
         <!-- Dettagli del laptop -->
@@ -20,7 +22,7 @@
             <i class="fas fa-star text-warning"></i>
             {{ laptop.avg_rating }}
             {% if user.is_authenticated %}
-                &nbsp; <a href="{% url 'laptop_and_seller_reviews_list' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni)</a>
+                &nbsp; <a href="{% url 'laptop_and_seller_reviews_list' laptop.id %}">({{ laptop.laptopreview_set.count }} recensioni al laptop, visualizza anche le recensioni al fornitore)</a>
             {% endif %}
 
             {% if laptop.description %}

@@ -21,7 +21,9 @@
         {% for laptop in recommended_laptops %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    {% if laptop.image %}
+                        <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ laptop.name }}    |    €{{ laptop.price }} </h5>
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -42,7 +44,9 @@
         {% for laptop in most_highly_rated %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    {% if laptop.image %}
+                        <img src="{{ laptop.image.url }}" class="card-img-top" alt="{{ laptop.name }}">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ laptop.name }}    |    €{{ laptop.price }} </h5>
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

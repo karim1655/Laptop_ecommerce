@@ -17,7 +17,9 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">{{ review.title }}</h5>
-                                <p class="card-text">{{ review.description }}</p>
+                                {% if review.description %}
+                                    <p class="card-text">{{ review.description }}</p>
+                                {% endif %}
                                 <p class="text-muted">Valutazione:
                                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
                                     <i class="fas fa-star text-warning"></i>
@@ -50,7 +52,9 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">{{ review.title }}</h5>
-                                <p class="card-text">{{ review.description }}</p>
+                                {% if review.description %}
+                                    <p class="card-text">{{ review.description }}</p>
+                                {% endif %}
                                 <p class="text-muted">Valutazione:
                                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
                                     <i class="fas fa-star text-warning"></i>
