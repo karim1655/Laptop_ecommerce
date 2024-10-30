@@ -54,6 +54,9 @@ class LaptopsListView(ListView):
     template_name = 'management/laptops_list.html'
     title = 'Laptops list'
 
+    def get_queryset(self):
+        return Laptop.objects.order_by('seller')
+
 @login_required
 @seller_required
 def add_laptop(request):
