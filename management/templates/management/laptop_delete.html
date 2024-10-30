@@ -15,7 +15,7 @@
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Elimina</button>
             </form>
-            <a href="{% url 'laptops_list' %}" class="btn btn-secondary">Annulla</a>
+            <a href="{% url 'laptop_detail' laptop.id %}" class="btn btn-secondary">Annulla</a>
         </div>
     </div>
 </div>
