@@ -4,10 +4,10 @@
 <div class="container mt-5">
     <h2 class="mb-4">Search for a Laptop</h2>
     <form method="get" action="">
-        
+
         <div class="form-group mb-3">
             <label for="id_name">Laptop Name</label>
-            <input type="text" name="name" class="form-control" id="id_name" maxlength="100" placeholder="Enter laptop name">
+            <input type="text" name="name" class="form-control" id="id_name" maxlength="100" placeholder="Enter laptop name" value="{{ form.name.value }}">
         </div>
 
         <div class="form-group mb-3">
@@ -20,38 +20,39 @@
             </select>
         </div>
 
-
         <div class="form-group mb-3">
             <label for="id_ram">RAM (GB)</label>
-            <input type="number" name="ram" class="form-control" id="id_ram" placeholder="Enter RAM size in GB">
+            <input type="number" name="ram" class="form-control" id="id_ram" placeholder="Enter RAM size in GB" value="{{ form.ram.value }}">
         </div>
 
         <div class="form-group mb-3">
             <label for="id_storage">Storage (GB)</label>
-            <input type="number" name="storage" class="form-control" id="id_storage" placeholder="Enter storage size in GB">
+            <input type="number" name="storage" class="form-control" id="id_storage" placeholder="Enter storage size in GB" value="{{ form.storage.value }}">
         </div>
 
         <div class="form-group mb-3">
             <label for="id_display_inches">Display Size (inches)</label>
-            <input type="number" name="display_inches" class="form-control" id="id_display_inches" placeholder="Enter display size in inches">
+            <input type="number" name="display_inches" class="form-control" id="id_display_inches" placeholder="Enter display size in inches" value="{{ form.display_inches.value }}">
         </div>
 
         <div class="form-group mb-3">
             <label for="id_price">Budget (€)</label>
-            <input type="number" name="price" class="form-control" id="id_price" step="0.01" placeholder="Enter budget">
+            <input type="number" name="price" class="form-control" id="id_price" step="0.01" placeholder="Enter budget" value="{{ form.price.value }}">
         </div>
 
         <div class="form-group mb-3">
             <label for="id_category">Category</label>
             <select name="category" class="form-control" id="id_category">
                 {% for choice, label in form.fields.category.choices %}
-                    <option value="{{ choice }}">{{ label }}</option>
+                    <option value="{{ choice }}" {% if form.category.value == choice %}selected{% endif %}>{{ label }}</option>
                 {% endfor %}
             </select>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Search</button>
+
     </form>
+
 </div>
 
 
