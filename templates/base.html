@@ -69,14 +69,7 @@
         </div>
     </nav>
 
-
-    <!-- Main Content -->
-    <div class="container my-5">
-        {% block content %}
-
-        {% endblock %}
-    </div>
-
+    <!-- Messages -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
@@ -87,6 +80,15 @@
         {% endfor %}
     </div>
     {% endif %}
+
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
