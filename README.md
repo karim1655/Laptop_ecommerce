@@ -12,7 +12,8 @@ Il sito offre anche funzioni come la ricerca, con la possibilità di inserire di
 ### Clona il repository ed entra nella cartella top-level di progetto
 ```
 git clone https://github.com/karim1655/Laptop_ecommerce.git
-
+```
+```
 cd Laptop_ecommerce
 ```
 ### Installa pipenv
