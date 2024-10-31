@@ -26,7 +26,7 @@ pipenv install
 Questo comando creerà un nuovo ambiente virtuale e installerà tutte le dipendenze elencate nel file Pipfile (se presente). Altrimenti pipenv creerà un ambiente vuoto.
 ### Attiva ambiente virtuale
 ```
-pipenv install
+pipenv shell
 ```
 ### Installa le dipendenze
 ```
