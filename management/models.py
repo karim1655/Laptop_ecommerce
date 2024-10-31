@@ -66,3 +66,26 @@ class SellerReview(models.Model):
 
     def __str__(self):
         return f"{self.user}'s review for {self.seller}"
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_paid = models.BooleanField(default=False)
+    is_shipped = models.BooleanField(default=False)
+    is_received = models.BooleanField(default=False)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
