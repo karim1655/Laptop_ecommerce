@@ -14,7 +14,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.12 (Laptop_ecommerce-FV68rbrC)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Pipenv (Laptop_ecommerce)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
