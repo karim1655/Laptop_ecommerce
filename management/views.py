@@ -285,7 +285,7 @@ def checkout(request):
         return redirect('home')
 
     cart = Cart.objects.filter(user=request.user).first()
-    if not cart:
+    if not cart or not cart.cartitem_set.exists():
         messages.error(request, "Il carrello è vuoto.")
         return redirect('cart_detail')
 
@@ -301,9 +301,9 @@ def confirm_order(request):
         return redirect('home')
 
     cart = Cart.objects.filter(user=request.user).first()
-    if not cart:
+    if not cart or not cart.cartitem_set.exists():
         messages.error(request, "Il carrello è vuoto.")
-        return redirect('cart_detail')
+        return redirect('checkout')
 
     cart_items = cart.cartitem_set.all()
     total_amount = sum(item.laptop.price * item.quantity for item in cart_items)
