@@ -33,8 +33,8 @@ def get_recommendations(user):
 
     # Loop su ogni laptop e rating nella matrice
     for laptop_id, rating in user_ratings.items():
-        if rating >= 0:  # Solo laptop con rating >= 0
-            laptop = Laptop.objects.get(id=laptop_id)
+        laptop = Laptop.objects.get(id=laptop_id)
+        if rating >= 4:  # Solo laptop con rating >= 4
             similar_laptops = Laptop.objects.filter(
                 category=laptop.category,
                 laptopreview__rating__gte=4
