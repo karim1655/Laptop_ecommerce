@@ -10,10 +10,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from numpy.ma.extras import average
 
 from .forms import CustomUserCreationForm, LaptopForm, SearchForm, LaptopReviewForm, SellerReviewForm
-from .models import CustomUser, Laptop, LaptopReview, SellerReview
+from .models import CustomUser, Laptop, LaptopReview, SellerReview, Cart, CartItem, Order, OrderItem
 from .decorators import seller_required, SellerRequiredMixin
 from .recommendations import get_recommendations
-from django.db.models import Avg
+from django.db.models import Avg, Sum, F
 
 
 # Create your views here.
@@ -140,9 +140,26 @@ def search(request):
 def seller_dashboard(request, seller_id):
     seller_reviews = SellerReview.objects.filter(seller_id=seller_id)
 
+    # Stats vendite
+    total_sales = OrderItem.objects.filter(laptop__seller=seller_id).aggregate(
+        total_sales = Sum(F('price') * F('quantity'))
+    )['total_sales'] or 0
+    total_sales = round(total_sales, 2)
+
+    total_orders = OrderItem.objects.filter(laptop__seller=seller_id).aggregate(
+        total_quantity_sold=Sum('quantity')
+    )['total_quantity_sold'] or 0
+
+    top_selling_laptops = (Laptop.objects.filter(seller_id=seller_id, orderitem__isnull=False)
+        .annotate(total_sold=Sum('orderitem__quantity'))
+        .order_by('-total_sold'))
+
     ctx = {
         "object_list" : Laptop.objects.filter(seller=seller_id),
-        "seller_reviews": seller_reviews
+        "seller_reviews": seller_reviews,
+        'total_sales': total_sales,
+        'total_orders': total_orders,
+        'top_selling_laptops': top_selling_laptops,
     }
     return render(request, 'management/seller_dashboard.html', context=ctx)
 
@@ -194,3 +211,107 @@ def add_seller_review(request, seller_id, laptop_id):
     else:
         form = SellerReviewForm()
     return render(request, 'management/seller_review.html', {'form': form, 'seller': seller, 'laptop_id': laptop_id})
+
+
+@login_required
+def add_to_cart(request, laptop_id):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers cannot add items to the cart.')
+        return redirect('home')
+
+    laptop = get_object_or_404(Laptop, id=laptop_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, item_created = CartItem.objects.get_or_create(cart=cart, laptop=laptop)
+
+    if not item_created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    messages.success(request, "Laptop aggiunto al carrello con successo.")
+    return redirect('laptop_detail', laptop_id)
+
+@login_required
+def cart_detail(request):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers are not allowed to access the cart.')
+        return redirect('home')
+
+    cart = Cart.objects.filter(user=request.user).first()
+    cart_items = cart.cartitem_set.all() if cart else []
+    return render(request, 'management/cart_detail.html', {'cart_items': cart_items})
+
+
+@login_required
+def increase_quantity(request, item_id):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers are not allowed to access the cart.')
+        return redirect('home')
+
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('cart_detail')
+
+@login_required
+def decrease_quantity(request, item_id):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers are not allowed to access the cart.')
+        return redirect('home')
+
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
+    return redirect('cart_detail')
+
+@login_required
+def remove_from_cart(request, item_id):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers are not allowed to access the cart.')
+        return redirect('home')
+
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    cart_item.delete()
+    messages.success(request, "Elemento rimosso dal carrello.")
+    return redirect('cart_detail')
+
+
+@login_required
+def checkout(request):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers are not allowed to access the checkout.')
+        return redirect('home')
+
+    cart = Cart.objects.filter(user=request.user).first()
+    if not cart:
+        messages.error(request, "Il carrello è vuoto.")
+        return redirect('cart_detail')
+
+    cart_items = cart.cartitem_set.all()
+    total_amount = sum(item.laptop.price * item.quantity for item in cart_items)
+    return render(request, 'management/checkout.html', {'cart_items': cart_items, 'total_amount': total_amount})
+
+
+@login_required
+def confirm_order(request):
+    if request.user.user_type != 'buyer':
+        messages.error(request, 'Sellers are not allowed to access the order.')
+        return redirect('home')
+
+    cart = Cart.objects.filter(user=request.user).first()
+    if not cart:
+        messages.error(request, "Il carrello è vuoto.")
+        return redirect('cart_detail')
+
+    cart_items = cart.cartitem_set.all()
+    total_amount = sum(item.laptop.price * item.quantity for item in cart_items)
+    order = Order.objects.create(user=request.user, total_amount=total_amount, is_paid=False)
+
+    for item in cart_items:
+        OrderItem.objects.create(order=order, laptop=item.laptop, quantity=item.quantity, price=item.laptop.price)
+
+    cart.cartitem_set.all().delete()
+    messages.success(request, "Ordine confermato con successo.")
+    return redirect('home')

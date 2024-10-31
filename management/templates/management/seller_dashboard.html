@@ -3,11 +3,13 @@
 {% block title %}Dashboard - E-Laptop{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>I miei prodotti</h2>
         <!-- Pulsante per aggiungere nuovi prodotti -->
-        <a href="{% url 'add_laptop' %}" class="btn btn-success">Aggiungi Prodotto</a>
+        <a href="{% url 'add_laptop' %}" class="btn btn-primary">Aggiungi Prodotto</a>
     </div>
 
     <div class="row">
@@ -32,7 +34,39 @@
     </div>
 
 
+    <br><br>
+    <h2>Statistiche sulle vendite</h2>
+    <div class="d-flex align-items-center mb-4">
+        <span class="badge badge-pill badge-primary px-4 py-2 mr-3" style="font-size: 1.2em;">
+            Laptop venduti: {{ total_orders }}
+        </span>
+        <span class="badge badge-pill badge-success px-4 py-2" style="font-size: 1.2em;">
+            Profitti: {{ total_sales }}€
+        </span>
+    </div>
 
+    <h3>I più venduti:</h3>
+
+    <ul class="list-group">
+        {% for laptop in top_selling_laptops %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="{{ laptop.image.url }}" alt="{{ laptop.name }}" style="width: 50px; height: auto; margin-right: 10px;">
+                    <span>{{ laptop.name }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span>{{ laptop.price }} €</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="mr-3">Quantità: {{ laptop.total_sold }}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Ancora nessuna vendita.</li>
+        {% endfor %}
+    </ul>
+
+    <br><br><br>
     <h2>Le recensioni degli utenti</h2>
     {% if seller_reviews.exists %}
         <div class="row mt-4">
