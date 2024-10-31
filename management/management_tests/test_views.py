@@ -104,7 +104,7 @@ class LaptopCreateViewTests(TestCase):
 
     def test_add_laptop_as_seller_with_image(self):
         self.client.login(username='seller', password='password1')
-        with open(r'C:\Users\damor\PycharmProjects\Laptop_ecommerce\management\tests\files\mba13-m2-midnight-gallery1-202402.jpeg', 'rb') as image:
+        with open(r'C:\Users\damor\PycharmProjects\Laptop_ecommerce\management\management_tests\files\mba13-m2-midnight-gallery1-202402.jpeg', 'rb') as image:
             response = self.client.post(reverse('add_laptop'), {
                 'name': 'New Laptop with image',
                 'processor_brand': 'Intel',
