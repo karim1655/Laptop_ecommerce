@@ -44,10 +44,13 @@ python manage.py createsuperuser
 ```
 python manage.py runserver
 ```
+
+
+## Utilizzo
 ### Accedi
 Inserisci http://localhost:8000 in un qualunque browser per accedere all'applicazione.
 
-## Utilizzo
+### Utenti
 Il database è già popolato con alcune istanze sia di acquirenti che di fornitori.
 La password è sempre: `bellabro1`
 
@@ -56,6 +59,19 @@ Acquirenti:
 - Dwight
 - Jim
 - Pam
+- Ryan
+- Kelly
+- Angela
+- Phyllis
+- Oscar
+- Kevin
+- Creed
+- Hollie
+- Toby
+- Stanley
+- Meredith
+- Darryl
+
 
 Fornitori:
 - Apple
@@ -65,7 +81,7 @@ Fornitori:
 ## Testing
 Per eseguire i test:
 ```
-python manage.py management/tests
+python manage.py test
 ```
 
 
