@@ -7,7 +7,7 @@
 
         <div class="form-group mb-3">
             <label for="id_name">Laptop Name</label>
-            <input type="text" name="name" class="form-control" id="id_name" maxlength="100" placeholder="Enter laptop name" value="{{ form.name.value }}">
+            <input type="text" name="name" class="form-control" id="id_name" maxlength="100" placeholder="Enter laptop name" value="{{ form.name.value|default_if_none:'' }}">
         </div>
 
         <div class="form-group mb-3">
