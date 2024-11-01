@@ -66,12 +66,12 @@ def add_laptop(request):
             laptop = form.save(commit=False)
             laptop.seller = request.user
             laptop.save()
-            messages.success(request, 'Laptop created successfully')
+            messages.success(request, 'Laptop aggiunto con successo')
 
             seller_id = request.user.id
             return redirect('seller_dashboard', seller_id)
         else:
-            messages.error(request, 'Laptop not created')
+            messages.error(request, 'Laptop non creato')
     else:
         form = LaptopForm()
     return render(request, 'management/add_laptop.html', {'form': form})
@@ -167,11 +167,11 @@ def seller_dashboard(request, seller_id):
 @login_required
 def add_laptop_review(request, laptop_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers cannot add reviews to laptops')
+        messages.error(request, 'I fornitori non posso aggiungere recensioni ai laptop')
         return redirect('home')
     laptop = get_object_or_404(Laptop, id=laptop_id)
     if LaptopReview.objects.filter(laptop=laptop, user=request.user).exists():
-        messages.error(request, 'You have already reviewed this laptop.')
+        messages.error(request, 'Hai già recensito questo laptop.')
         return redirect('laptop_detail', laptop_id)
 
     if request.method == 'POST':
@@ -181,6 +181,7 @@ def add_laptop_review(request, laptop_id):
             laptop_review.user = request.user
             laptop_review.laptop = laptop
             laptop_review.save()
+            messages.success(request, 'Recensione al laptop creata con successo')
             return redirect('laptop_detail', laptop_id)
     else:
         form = LaptopReviewForm()
@@ -196,7 +197,7 @@ def laptop_and_seller_reviews_list(request, laptop_id):
 @login_required
 def add_seller_review(request, seller_id, laptop_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers cannot add reviews to sellers')
+        messages.error(request, 'I fornitori non posso aggiungere recensioni ai fornitori')
         return redirect('home')
     seller = get_object_or_404(CustomUser, id=seller_id)
     if request.method == 'POST':
@@ -206,7 +207,7 @@ def add_seller_review(request, seller_id, laptop_id):
             seller_review.user = request.user
             seller_review.seller = seller
             seller_review.save()
-            messages.success(request, 'Seller review created successfully')
+            messages.success(request, 'Recensione al fornitore creata con successo')
             return redirect('laptop_detail', laptop_id)
     else:
         form = SellerReviewForm()
@@ -216,7 +217,7 @@ def add_seller_review(request, seller_id, laptop_id):
 @login_required
 def add_to_cart(request, laptop_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers cannot add items to the cart.')
+        messages.error(request, 'I fornitori non possono aggiungere laptop al carrello')
         return redirect('home')
 
     laptop = get_object_or_404(Laptop, id=laptop_id)
@@ -233,7 +234,7 @@ def add_to_cart(request, laptop_id):
 @login_required
 def cart_detail(request):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers are not allowed to access the cart.')
+        messages.error(request, 'I fornitori non possono accedere al carrello')
         return redirect('home')
 
     cart = Cart.objects.filter(user=request.user).first()
@@ -244,7 +245,7 @@ def cart_detail(request):
 @login_required
 def increase_quantity(request, item_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers are not allowed to access the cart.')
+        messages.error(request, 'I fornitori non possono aumentare di quantità un elemento del carrello')
         return redirect('home')
 
     cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
@@ -255,7 +256,7 @@ def increase_quantity(request, item_id):
 @login_required
 def decrease_quantity(request, item_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers are not allowed to access the cart.')
+        messages.error(request, 'I fornitori non possono diminuire di quantità un elemento del carrello')
         return redirect('home')
 
     cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
@@ -269,24 +270,24 @@ def decrease_quantity(request, item_id):
 @login_required
 def remove_from_cart(request, item_id):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers are not allowed to access the cart.')
+        messages.error(request, 'I fornitori non possono rimuovere un elemento dal carrello')
         return redirect('home')
 
     cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
     cart_item.delete()
-    messages.success(request, "Elemento rimosso dal carrello.")
+    messages.success(request, "Elemento rimosso dal carrello con successo")
     return redirect('cart_detail')
 
 
 @login_required
 def checkout(request):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers are not allowed to access the checkout.')
+        messages.error(request, 'I fornitori non possono accedere al checkout')
         return redirect('home')
 
     cart = Cart.objects.filter(user=request.user).first()
     if not cart or not cart.cartitem_set.exists():
-        messages.error(request, "Il carrello è vuoto.")
+        messages.error(request, "Il carrello è vuoto")
         return redirect('cart_detail')
 
     cart_items = cart.cartitem_set.all()
@@ -297,12 +298,12 @@ def checkout(request):
 @login_required
 def confirm_order(request):
     if request.user.user_type != 'buyer':
-        messages.error(request, 'Sellers are not allowed to access the order.')
+        messages.error(request, 'I fornitori non possono accedere all\'ordine')
         return redirect('home')
 
     cart = Cart.objects.filter(user=request.user).first()
     if not cart or not cart.cartitem_set.exists():
-        messages.error(request, "Il carrello è vuoto.")
+        messages.error(request, "Il carrello è vuoto")
         return redirect('checkout')
 
     cart_items = cart.cartitem_set.all()
@@ -313,5 +314,5 @@ def confirm_order(request):
         OrderItem.objects.create(order=order, laptop=item.laptop, quantity=item.quantity, price=item.laptop.price)
 
     cart.cartitem_set.all().delete()
-    messages.success(request, "Ordine confermato con successo.")
+    messages.success(request, "Ordine confermato con successo")
     return redirect('home')
